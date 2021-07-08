@@ -1,53 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Persons from './Components/Persons'
+import Adding from './Components/Adding'
+import Filter from './Components/Filter'
 
-const Person = ({ person }) => {
-  return (
-    <div>
-      <li>{person.name} {person.number}</li>
-    </div>
-  )
-}
-const Persons = ({ persons, search }) => {
-  let arr = persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()) || person.number.includes(search))
 
-  return (
-    <div>
-      {arr.map(person =>
-        <Person key={person.name} person={person} />
-      )}
-    </div>
-  )
-}
-const Filter = ({ search, addSearch }) => {
-  return (
-    <div>
-      search: <input value={search} onChange={addSearch}></input>
-    </div>
-  )
-}
-const Adding = (props) => {
-  return(
-  <form onSubmit={props.addPerson}>
-    <div>
-      name: <input value={props.newName} onChange={props.addName} />
-    </div>
-    <div>
-      number: <input value={props.newNumber} onChange={props.addNumber} />
-    </div>
-    <div>
-      <button type="submit">add</button>
-    </div>
-  </form>
-  )
-}
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [persons, setPersons] = useState([])
+
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
@@ -74,6 +35,8 @@ const App = () => {
     if (arr.includes(newName)) {
       window.alert(`${newName} is already in your phonebook!`);
     } else {
+      axios
+        .post('http://localhost:3001/persons', perObject)
       setPersons(persons.concat(perObject))
       setNewName('')
       setNewNumber('')
@@ -81,6 +44,15 @@ const App = () => {
 
 
   }
+  useEffect(()=>{
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(res => {
+        console.log('promise fulfilled')
+        setPersons(res.data)
+      })
+  }, [])
 
   return (
     <div>
