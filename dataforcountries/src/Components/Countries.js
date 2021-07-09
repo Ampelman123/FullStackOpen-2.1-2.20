@@ -11,9 +11,14 @@ const Countries = ({ countries, visu }) => {
         }
         if (1 < countries.length && countries.length < 15) {
             return (
-                countries.map(country =>
+                <div>
+                    <h1>Countries</h1>
+                    {countries.map(country =>
                     <Country key={country.name} country={country} />
-                )
+                    )}
+                </div>
+                
+                
             )
         }
         if (countries.length === 1) {

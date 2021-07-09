@@ -38,7 +38,7 @@ function App() {
     <div>
       <h1>Search a country</h1>
       <Filter search={search} addSearch={addSearch} />
-      <h1>Countries</h1>
+      
       <Countries countries={countries}/>
     </div>
   );
