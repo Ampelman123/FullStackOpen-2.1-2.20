@@ -37,9 +37,13 @@ const App = () => {
     } else {
       axios
         .post('http://localhost:3001/persons', perObject)
-      setPersons(persons.concat(perObject))
-      setNewName('')
-      setNewNumber('')
+        .then(()=>{
+          setPersons(persons.concat(perObject))
+          setNewName('')
+          setNewNumber('')
+        }
+        )
+      
     }
 
 
