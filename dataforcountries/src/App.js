@@ -5,11 +5,16 @@ import Countries from './Components/Countries'
 function App() {
   const [countries, setCountries] = useState([])
   const [search, setSearch] = useState('')
- 
 
   const addSearch = (event) => {
+    event.preventDefault()
     console.log('add search',search);
     setSearch(event.target.value)
+  }
+  const alterSearch = (value) =>{
+    value.preventDefault()
+    console.log('alter search', value);
+    setSearch(value.target.value)
   }
   
   useEffect(() => {
@@ -39,7 +44,7 @@ function App() {
       <h1>Search a country</h1>
       <Filter search={search} addSearch={addSearch} />
       
-      <Countries countries={countries}/>
+      <Countries countries={countries} alterSearch={alterSearch}/>
     </div>
   );
 }

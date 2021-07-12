@@ -1,7 +1,7 @@
 import Country from './Country'
 import CountryDetail from './CountryDetail'
 
-const Countries = ({ countries, visu }) => {
+const Countries = ({ countries, alterSearch }) => {
     console.log('countries in countries:',countries)
     function Visualize({ countries }) {
         if(countries.length > 15){
@@ -14,7 +14,7 @@ const Countries = ({ countries, visu }) => {
                 <div>
                     <h1>Countries</h1>
                     {countries.map(country =>
-                    <Country key={country.name} country={country} />
+                    <Country key={country.name} country={country} alterSearch={alterSearch} />
                     )}
                 </div>
                 
@@ -35,7 +35,7 @@ const Countries = ({ countries, visu }) => {
 
     return (
         <div>
-            <Visualize countries={countries} visu ={visu}/>
+            <Visualize countries={countries} />
         </div>
     )
 }

@@ -1,7 +1,7 @@
-const Country =({ country }) => {
+const Country = ({ country, alterSearch }) => {
     return (
         <div>
-            <li>{country.name}</li>
+            <button type="submit" value={country.name} onClick={alterSearch}>{country.name}</button>
         </div>
     )
 }
