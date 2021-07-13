@@ -1,7 +1,7 @@
 import Country from './Country'
 import CountryDetail from './CountryDetail'
 
-const Countries = ({ countries, alterSearch }) => {
+const Countries = ({ countries, alterSearch, weather, addWeather}) => {
     console.log('countries in countries:',countries)
     function Visualize({ countries }) {
         if(countries.length > 15){
@@ -22,8 +22,9 @@ const Countries = ({ countries, alterSearch }) => {
             )
         }
         if (countries.length === 1) {
+            
             return (
-                <CountryDetail country={countries[0]} />
+                <CountryDetail country={countries[0]} weather={weather} />
             )
         }else {
             console.log(countries.length)
