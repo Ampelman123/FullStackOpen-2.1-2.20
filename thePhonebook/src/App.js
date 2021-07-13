@@ -27,7 +27,9 @@ const App = () => {
   }
   const addPerson = (event) => {
     event.preventDefault()
+    console.log('name', newName, 'number', newNumber);
     const perObject = {
+      id: (persons.length + 1),
       name: newName,
       number: newNumber
     }
@@ -35,11 +37,13 @@ const App = () => {
     if (arr.includes(newName)) {
       window.alert(`${newName} is already in your phonebook!`);
     } else {
-      numberService.create()
-        .then(() => {
+      numberService.create(perObject)
+        .then((res) => {
+
           setPersons(persons.concat(perObject))
           setNewName('')
           setNewNumber('')
+          console.log('name', newName, 'number', newNumber);
         }
         )
 
@@ -58,14 +62,28 @@ const App = () => {
       })
   }, [])
 
+  const deleteNumber = (value) => {
+    
+    if (window.confirm('Do you really want to delete this number??')) {
+      console.log(value);
+      numberService
+        .deletion(value)
+        .then(res => {
+          console.log(res)
+          setPersons(persons.filter(p => p.id !== value))
+        })
+    }
+
+  }
+
   return (
     <div>
       <h1>Phonebook</h1>
       <Filter search={search} addSearch={addSearch} />
       <h2>Add new contact</h2>
-      <Adding addName={addName} addNumber={addNumber} addPerson={addPerson} />
+      <Adding addName={addName} addNumber={addNumber} addPerson={addPerson} newName={newName} newNumber={newNumber} />
       <h2>Numbers</h2>
-      <Persons persons={persons} search={search} />
+      <Persons persons={persons} search={search} deleteNumber={deleteNumber} />
     </div>
   )
 }
