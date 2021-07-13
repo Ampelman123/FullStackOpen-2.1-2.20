@@ -25,18 +25,30 @@ const App = () => {
   const addSearch = (event) => {
     setSearch(event.target.value)
   }
-  const addPerson = (event) => {
-    event.preventDefault()
-    console.log('name', newName, 'number', newNumber);
-    const perObject = {
-      id: (persons.length + 1),
+  const updatePerson = () => {
+    let filtered = persons.filter(y=>y.name===newName)
+    let updated = {
+      id: filtered[0].id,
       name: newName,
       number: newNumber
     }
+    numberService.update(updated.id, updated)
+    .then(res=>setPersons(persons.map(person => person.id !== updated.id ? person: res)))
+  }
+  const addPerson = (event) => {
+    event.preventDefault()
+    console.log('name', newName, 'number', newNumber);
     let arr = persons.map(y => y.name)
     if (arr.includes(newName)) {
-      window.alert(`${newName} is already in your phonebook!`);
+      if(window.confirm(`${newName} is already in your phonebook. Do you want to update the number?`)){
+       updatePerson()
+      }
     } else {
+      const perObject = {
+        id: (persons.length + 1),
+        name: newName,
+        number: newNumber
+      }
       numberService.create(perObject)
         .then((res) => {
 
