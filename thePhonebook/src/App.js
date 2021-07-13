@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Persons from './Components/Persons'
 import Adding from './Components/Adding'
 import Filter from './Components/Filter'
+import numberService from './services/numbers'
 
 
 
@@ -35,26 +35,26 @@ const App = () => {
     if (arr.includes(newName)) {
       window.alert(`${newName} is already in your phonebook!`);
     } else {
-      axios
-        .post('http://localhost:3001/persons', perObject)
-        .then(()=>{
+      numberService.create()
+        .then(() => {
           setPersons(persons.concat(perObject))
           setNewName('')
           setNewNumber('')
         }
         )
-      
+
     }
 
 
   }
-  useEffect(()=>{
+  useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    numberService
+      .getAll()
       .then(res => {
         console.log('promise fulfilled')
-        setPersons(res.data)
+        setPersons(res)
+        console.log('promise fulfilled')
       })
   }, [])
 
@@ -63,7 +63,7 @@ const App = () => {
       <h1>Phonebook</h1>
       <Filter search={search} addSearch={addSearch} />
       <h2>Add new contact</h2>
-      <Adding addName={addName}addNumber={addNumber}addPerson={addPerson}/>
+      <Adding addName={addName} addNumber={addNumber} addPerson={addPerson} />
       <h2>Numbers</h2>
       <Persons persons={persons} search={search} />
     </div>
