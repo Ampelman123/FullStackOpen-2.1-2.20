@@ -9,7 +9,6 @@ import Notification from './Components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
@@ -37,8 +36,11 @@ const App = () => {
     }
     numberService.update(updated.id, updated)
       .then(res => {
+        console.log(res)
         setPersons(persons.map(person => person.id !== updated.id ? person : res))
         setSucorerr('success')
+        setNewName('')
+        setNewNumber('')
         setMessage(`${updated.name} was updated!`)
         setTimeout(() => {
           setMessage(null)
@@ -55,7 +57,7 @@ const App = () => {
       }
     } else {
       const perObject = {
-        id: (Math.max(persons.map(y=>y.id))+ 1),
+        id: (Math.max(persons.map(y => y.id)) + 1),
         name: newName,
         number: newNumber
       }
@@ -76,20 +78,16 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log('effect')
     numberService
       .getAll()
       .then(res => {
-        console.log('promise fulfilled')
         setPersons(res)
-        console.log('promise fulfilled')
       })
   }, [])
 
   const deleteNumber = (value) => {
 
     if (window.confirm('Do you really want to delete this number??')) {
-      console.log(value);
       numberService
         .deletion(value)
         .then(res => {

@@ -1,6 +1,5 @@
 import Person from './Person'
 const Persons = ({ persons, search, deleteNumber}) => {
-  console.log(persons);
     let arr = persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()) || person.number.includes(search))
   
     return (
